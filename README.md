@@ -14,7 +14,7 @@ to show the times at which it will run.
 
 1. Import Project in IntelliJ IDEA
 
-   Click on **File** > **New** > **Project from Version Control** . Paste github in URL and click on **Clone**
+   Click on **File** > **New** > **Project from Version Control** . Paste github repo url in URL and click on **Clone**
 
 
 2. Installing dependencies
