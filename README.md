@@ -15,6 +15,10 @@ to show the times at which it will run.
 1. Import Project in IntelliJ IDEA
 
    Click on **File** > **New** > **Project from Version Control** . Paste github repo url in URL and click on **Clone**
+ 
+   OR
+   
+   Unzip the project and Click on **File** > **New** > **Project from Existing Sources** . Navigate to unzipped project location and click on **OK**
 
 
 2. Installing dependencies

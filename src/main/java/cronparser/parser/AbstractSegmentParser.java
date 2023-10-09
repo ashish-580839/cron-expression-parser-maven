@@ -1,4 +1,4 @@
-package cronparser.descriptor;
+package cronparser.parser;
 
 import cronparser.exception.IllegalCronException;
 
@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public abstract  class AbstractDescriptor {
+public abstract  class AbstractSegmentParser {
 
     String expression;
 
@@ -16,7 +16,7 @@ public abstract  class AbstractDescriptor {
     int MIN;
     int MAX;
 
-    public AbstractDescriptor(String expression, int min, int max, String label){
+    public AbstractSegmentParser(String expression, int min, int max, String label){
         this.expression = expression;
         this.MIN = min;
         this.MAX = max;
@@ -80,7 +80,7 @@ public abstract  class AbstractDescriptor {
         throw new IllegalCronException("("+label+") - Invalid expression: "+expression);
     }
 
-    public List<Integer> describe() throws IllegalCronException {
+    public List<Integer> parse() throws IllegalCronException {
         if(!isValid()){
             return null;
         }
@@ -91,7 +91,9 @@ public abstract  class AbstractDescriptor {
             for(int i=MIN;i<=MAX;i++){
                 occurrences.add(i);
             }
-        } else if(expression.matches("(\\*|\\d+)/\\d+") ){
+        }
+        // check expression containing '/'   eg: */12  , 1/2
+        else if(expression.matches("(\\*|\\d+)/\\d+") ){
 
             String[] parts = expression.split("/");
             int start;
@@ -104,13 +106,17 @@ public abstract  class AbstractDescriptor {
                 start += incrBy;
             }
 
-        }else if(expression.matches("\\d+-\\d+") ){
+        }
+        // check expression containing '-'   eg: 1-6
+        else if(expression.matches("\\d+-\\d+") ){
             int[] parts = Arrays.stream(expression.split("-")).mapToInt(Integer::parseInt).toArray();
 
             for (int i=parts[0];i<=parts[1];i++){
                 occurrences.add(i);
             }
-        }else if(expression.matches("(\\d+,)*\\d+") ){
+        }
+        // check expression containing ','   eg: 0,2,4,6
+        else if(expression.matches("(\\d+,)*\\d+") ){
             int[] parts = Arrays.stream(expression.split(",")).mapToInt(Integer::parseInt).toArray();
             for(int part:parts){
                 occurrences.add(part);
